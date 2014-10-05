@@ -14,6 +14,10 @@ IUSE="-lua"
 LICENSE="GPL"
 SLOT="0"
 
+src_prepare() {
+	epatch "${FILESDIR}"/${P}-fix-json-c-link.patch
+}
+
 src_configure() {
 	mycmakeargs+=($(cmake-utils_use lua BUILD_LUA))
 	cmake-utils_src_configure
