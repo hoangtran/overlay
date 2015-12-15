@@ -1,0 +1,29 @@
+From 18375a9e166a4d013e10a03cbe62a02ff708334a Mon Sep 17 00:00:00 2001
+From: Hoang Tran <hoang.tran@greenwavereality.com>
+Date: Mon, 16 Dec 2013 10:24:50 +0800
+Subject: [PATCH] autohide tab-bar if only one tab opened
+
+---
+ tabbed.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/tabbed.c b/tabbed.c
+index b15f9cb..3b82092 100644
+--- a/tabbed.c
++++ b/tabbed.c
+@@ -330,6 +330,12 @@ drawbar(void) {
+ 		return;
+ 	}
+ 
++	if (nclients == 1) {
++		XMoveResizeWindow(dpy, clients[0]->win, 0, 0, ww, wh - 0);
++		return;
++	} else if (nclients == 2)
++		XMoveResizeWindow(dpy, clients[1]->win, 0, bh, ww, wh - bh);
++
+ 	width = ww;
+ 	cc = ww / tabwidth;
+ 	if(nclients > cc)
+-- 
+2.6.3
+
