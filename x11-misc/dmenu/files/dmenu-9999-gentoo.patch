@@ -1,0 +1,58 @@
+--- a/config.mk
++++ b/config.mk
+@@ -5,8 +5,8 @@
+ PREFIX = /usr/local
+ MANPREFIX = ${PREFIX}/share/man
+ 
+-X11INC = /usr/X11R6/include
+-X11LIB = /usr/X11R6/lib
++X11INC = -I/usr/X11R6/include
++X11LIB = -L/usr/X11R6/lib
+ 
+ # Xinerama, comment if you don't want it
+ XINERAMALIBS  = -lXinerama
+@@ -14,18 +14,18 @@
+ 
+ # freetype
+ FREETYPELIBS = -lfontconfig -lXft
+-FREETYPEINC = /usr/include/freetype2
++FREETYPEINC = -I/usr/include/freetype2
+ # OpenBSD (uncomment)
+ #FREETYPEINC = ${X11INC}/freetype2
+ 
+ # includes and libs
+-INCS = -I${X11INC} -I${FREETYPEINC}
+-LIBS = -L${X11LIB} -lX11 ${XINERAMALIBS} ${FREETYPELIBS}
++INCS = ${X11INC} ${FREETYPEINC}
++LIBS = ${X11LIB} -lX11 ${XINERAMALIBS} ${FREETYPELIBS}
+ 
+ # flags
+ CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE=700 -D_POSIX_C_SOURCE=200809L -DVERSION=\"${VERSION}\" ${XINERAMAFLAGS}
+-CFLAGS   = -std=c99 -pedantic -Wall -Os ${INCS} ${CPPFLAGS}
+-LDFLAGS  = -s ${LIBS}
++CFLAGS   = -std=c99 -pedantic -Wall ${INCS} ${CPPFLAGS}
++LDFLAGS  = ${LIBS}
+ 
+ # compiler and linker
+ CC = cc
+--- a/dmenu.c
++++ b/dmenu.c
+@@ -542,12 +542,14 @@ setup(void)
+ 	int x, y;
+ 	XSetWindowAttributes swa;
+ 	XIM xim;
+-#ifdef XINERAMA
+-	XineramaScreenInfo *info;
+-	Window w, pw, dw, *dws;
+ 	XWindowAttributes wa;
+-	int a, j, di, n, i = 0, area = 0;
++	int i = 0;
+ 	unsigned int du;
++	Window w, dw, *dws;
++#ifdef XINERAMA
++	XineramaScreenInfo *info;
++	Window pw;
++	int a, j, di, n, area = 0;
+ #endif
+ 
+ 	/* init appearance */
