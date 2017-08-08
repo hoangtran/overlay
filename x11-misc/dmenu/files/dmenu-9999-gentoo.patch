@@ -35,24 +35,3 @@
  
  # compiler and linker
  CC = cc
---- a/dmenu.c
-+++ b/dmenu.c
-@@ -542,12 +542,14 @@ setup(void)
- 	int x, y;
- 	XSetWindowAttributes swa;
- 	XIM xim;
--#ifdef XINERAMA
--	XineramaScreenInfo *info;
--	Window w, pw, dw, *dws;
- 	XWindowAttributes wa;
--	int a, j, di, n, i = 0, area = 0;
-+	int i = 0;
- 	unsigned int du;
-+	Window w, dw, *dws;
-+#ifdef XINERAMA
-+	XineramaScreenInfo *info;
-+	Window pw;
-+	int a, j, di, n, area = 0;
- #endif
- 
- 	/* init appearance */
