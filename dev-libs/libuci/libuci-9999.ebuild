@@ -6,10 +6,11 @@ EAPI="5"
 
 inherit cmake-utils git-2
 
-EGIT_REPO_URI="git://nbd.name/uci.git"
-HOMEPAGE="http://nbd.name/gitweb.cgi?p=uci.git;a=summary"
+EGIT_REPO_URI="git://git.openwrt.org/project/uci.git"
+HOMEPAGE="https://git.openwrt.org/?p=project/uci.git;a=summary"
 
 IUSE="-lua"
+DEPEND="dev-libs/libubox"
 
 LICENSE="GPL"
 SLOT="0"
@@ -21,4 +22,5 @@ src_configure() {
 
 src_install() {
 	cmake-utils_src_install
+	mv "${ED}/usr/lib" "${ED}/usr/$(get_libdir)" || die "mv failed"
 }
